@@ -1,0 +1,76 @@
+body {
+    background: #7cdd5f; /* fallback for old browsers */
+    background: -webkit-linear-gradient(
+        to right,
+        #adede6,
+        #fdc830
+    ); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(
+        to right,
+        #b6e38f,
+        #e1b4ee
+    ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background-repeat: no-repeat;
+    background-size: cover;
+    /* height: 150%; */
+    width: 100%;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  nav {
+    background-color: #7cdd5f; /* Fallback for older browsers */
+    background-image: -webkit-linear-gradient(to right, #b6e38f, #e1b4ee); /* Chrome 10-25, Safari 5.1-6 */
+    background-image: linear-gradient(to right, #b6e38f, #e1b4ee); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    height: 60px;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+  }
+  
+  nav a {
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: bold;
+    text-decoration: none;
+    padding: 20px;
+    display: inline-block;
+  }
+  
+  nav a:hover {
+    background-color: rgba(104, 74, 153, 0.8);
+    border-radius: 5px;
+  }
+  .prediction-link {
+display: inline-block;
+padding: 10px 20px;
+font-size: 20px;
+font-weight: bold;
+color: #ffffff;
+background-color: rgba(104, 74, 153, 0.8);
+/* background-image: -webkit-linear-gradient(to right, #b6e38f, #e1b4ee);
+background-image: linear-gradient(to right, #b6e38f, #e1b4ee); */
+text-decoration: none;
+border-radius: 5px;
+transition: background-color 0.3s ease;
+}
+
+.prediction-link:hover {
+    background-color: #c885db;
+}
+
+.result img {
+  max-width: 50%;
+  max-height: 50%;
+  margin-top: 10px;
+}
+.result {
+  border: 2px solid #1b5976;
+  border-radius: 10px;
+  padding: 10px;
+  width: 60%;
+  margin: 15px auto;
+  font-size: 1.2em;
+}

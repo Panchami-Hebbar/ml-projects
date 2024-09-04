@@ -1,0 +1,85 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .card {
+    max-width: 600px;
+    margin: 50px auto;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 0.25rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    background-color: rgba(255, 255, 255, 0.2); /* Semi-transparent background */
+    backdrop-filter: blur(10px); /* Optional: Adds a blur effect to the background */
+}
+  
+  .card-header {
+    background-color: rgba(134, 106, 191, 0.8);
+    color: #ffffff;
+    padding: 1rem;
+    border-bottom: 1px solid #dee2e6;
+  }
+  
+  .card-header h4 {
+    margin: 0;
+  }
+  
+  .card-body {
+    padding: 2rem;
+  }
+  
+  .subDiv {
+    text-align: left;
+  }
+  
+  .subDiv b {
+    font-weight: normal;
+    display: block;
+    margin-bottom: 1rem;
+  }
+  
+  .subDiv input[type="number"],
+  .subDiv select {
+    width: 100%;
+    padding: 0.5rem;
+    margin-top: 0.5rem;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    box-sizing: border-box;
+  }
+  
+  .subDiv input[type="radio"] {
+    margin: 0.5rem 0.5rem 0.5rem 0;
+  }
+  
+  .btnDiv {
+    text-align: center;
+    margin-top: 1.5rem;
+  }
+  
+  .btn-primary {
+    background-color: rgba(134, 106, 191, 0.8);
+    border: none;
+    padding: 0.75rem 1.25rem;
+    color: #ffffff;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 0.25rem;
+    transition: background-color 0.3s;
+  }
+  
+  .btn-primary:hover {
+    background-color: rgba(187, 109, 188, 0.8);
+    border: none;;
+  }
+  .formDiv input[type="number"],
+.formDiv input[type="radio"],
+.formDiv input[type="submit"],
+.formDiv select {
+    font-size: 16px;
+}
+.formDiv label {
+    font-size: 20px;
+}

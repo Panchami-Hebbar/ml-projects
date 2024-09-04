@@ -1,0 +1,75 @@
+body {
+  background: linear-gradient(to right, #b6e38f, #e1b4ee); /* Gradient background */
+  font-family: Arial, sans-serif;
+}
+
+nav {
+  background: linear-gradient(to right, #b6e38f, #e1b4ee);
+  height: 60px;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+nav a {
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: bold;
+  text-decoration: none;
+  padding: 20px;
+  display: inline-block;
+}
+
+nav a:hover {
+  background-color: rgba(221, 144, 217, 0.8);
+  border-radius: 5px;
+}
+
+.info-box {
+  padding: 20px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: #f3e6f6; /* Lavender background for divisions */
+  position: relative;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border 0.3s ease;
+}
+
+.info-box:hover {
+  border: 3px solid #b6e38f; /* Green border on hover */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3), 0 0 10px rgba(187, 87, 187, 0.5); /* Shadow with green and purple */
+  transform: scale(1.05) rotateY(5deg);
+  background-color: #f0f9f5;
+}
+
+.info-box::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: -30px;
+  width: 0;
+  height: 0;
+  border-top: 15px solid transparent;
+  border-bottom: 15px solid transparent;
+  border-right: 15px solid #b6e38f; /* Green arrow */
+  transition: width 0.3s ease;
+}
+
+.info-box:hover::before {
+  width: 15px;
+}
+
+.info-box h3 {
+  margin-top: 0;
+}
+
+.text-center img {
+  max-width: 100%;
+  border-radius: 10px;
+}
