@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PCOS Prediction Model</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #7cdd5f;
+            background: linear-gradient(to right, #b6e38f, #e1b4ee);
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        nav {
+            background: linear-gradient(to right, #b6e38f, #e1b4ee);
+            height: 60px;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        nav a {
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: bold;
+            text-decoration: none;
+            padding: 15px;
+            display: inline-block;
+        }
+
+        nav a:hover {
+            background-color: rgba(221, 144, 217, 0.8);
+            border-radius: 5px;
+        }
+
+        .container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .step {
+            display: none;
+            padding: 30px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #ffffff;
+            width: 100%;
+            max-width: 600px;
+            margin: auto;
+            position: relative;
+            box-shadow: 0 0 10px #e1b4ee;
+            transform-style: preserve-3d;
+            backface-visibility: hidden;
+            transition: transform 1.5s;
+        }
+
+        .step.active {
+            display: block;
+        }
+
+        .navigation-buttons {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .btn-primary {
+            background-color: #b6e38f;
+            border-color: #b6e38f;
+        }
+
+        .btn-primary:hover {
+            background-color: #9ad661;
+            border-color: #9ad661;
+        }
+
+        .btn-secondary {
+            background-color: #e1b4ee;
+            border-color: #e1b4ee;
+        }
+
+        .btn-secondary:hover {
+            background-color: #d0a2d5;
+            border-color: #d0a2d5;
+        }
+
+        .rotate {
+            animation: rotate 1.5s ease-in-out;
+        }
+
+        @keyframes rotate {
+            from { transform: rotateY(0); }
+            to { transform: rotateY(360deg); }
+        }
+
+        .heading-3d {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #ffffff; /* Default color */
+            text-shadow: 0 4px 6px rgba(0,0,0,0.2), 0 1px 3px rgba(0,0,0,0.1);
+            transition: color 0.5s ease;
+            perspective: 1000px;
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .heading-3d.purple {
+            color: #b6e38f; /* Purple color for the heading */
+        }
+
+        @media (max-width: 768px) {
+            nav a {
+                font-size: 14px;
+                padding: 10px;
+            }
+
+            .step {
+                padding: 20px;
+                box-shadow: 0 0 8px #e1b4ee;
+            }
+
+            .navigation-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn-primary, .btn-secondary {
+                width: 100%;
+                margin: 5px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="/">PCOS Prediction</a>
+        <a href="/bmi_calculator">BMI Calculator</a>
+        <a href="/about">About</a>
+    </nav>
+    <div class="container">
+        <h1 class="heading-3d text-center mb-4">PCOS Prediction Model</h1>
+        <form id="pcosForm" action="{{ url_for('predict') }}" method="post">
+            <div class="row justify-content-center">
+                {% for i in range(0, features|length, 3) %}
+                <div class="form-group col-md-12 step" id="step{{ i//3 }}">
+                    {% for feature in features[i:i+3] %}
+                    <div class="form-group">
+                        <label for="{{ feature }}">{{ feature }}:</label>
+                        {% if feature == 'Irregularity/Regularity in Period Cycle(4/2)' %}
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="{{ feature }}" name="{{ feature }}" required readonly>
+                            <div class="input-group-append">
+                                <button type="button" class="btn btn-success btn-regular" onclick="setFeatureValue('{{ feature }}', '2')">Regular</button>
+                                <button type="button" class="btn btn-danger btn-irregular" onclick="setFeatureValue('{{ feature }}', '4')">Irregular</button>
+                            </div>
+                        </div>
+                        {% elif 'Y/N' in feature %}
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="{{ feature }}" name="{{ feature }}" required readonly>
+                            <div class="input-group-append">
+                                <button type="button" class="btn btn-success btn-yes" onclick="setFeatureValue('{{ feature }}', '1')">Yes</button>
+                                <button type="button" class="btn btn-danger btn-no" onclick="setFeatureValue('{{ feature }}', '0')">No</button>
+                            </div>
+                        </div>
+                        {% else %}
+                        <input type="text" class="form-control" id="{{ feature }}" name="{{ feature }}" required>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                    <div class="navigation-buttons">
+                        {% if i == features|length - 3 %}
+                        <button type="button" class="btn btn-secondary" onclick="previousStep()">Back</button>
+                        <button type="submit" class="btn btn-primary" onclick="rotate()">Predict</button>
+                        {% else %}
+                        <button type="button" class="btn btn-secondary" onclick="previousStep()">Back</button>
+                        <button type="button" class="btn btn-primary" onclick="nextStep()">Next</button>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        let currentStep = 0;
+        const steps = document.querySelectorAll('.step');
+        const heading = document.querySelector('.heading-3d');
+
+        function showStep(step) {
+            steps.forEach((element, index) => {
+                element.classList.remove('active');
+                if (index === step) {
+                    element.classList.add('active');
+                }
+            });
+        }
+
+        function nextStep() {
+            if (currentStep < steps.length - 1) {
+                if (validateStep(currentStep)) {
+                    heading.classList.add('purple');
+                    setTimeout(() => {
+                        heading.classList.remove('purple');
+                        steps[currentStep].classList.add('rotate');
+                        setTimeout(() => {
+                            steps[currentStep].classList.remove('rotate');
+                            currentStep++;
+                            showStep(currentStep);
+                        }, 1500);
+                    }, 500);
+                } else {
+                    alert('Please complete all fields before proceeding.');
+                }
+            } else {
+                document.getElementById('pcosForm').submit();
+            }
+        }
+
+        function previousStep() {
+            if (currentStep > 0) {
+                heading.classList.add('purple');
+                setTimeout(() => {
+                    heading.classList.remove('purple');
+                    steps[currentStep].classList.add('rotate');
+                    setTimeout(() => {
+                        steps[currentStep].classList.remove('rotate');
+                        currentStep--;
+                        showStep(currentStep);
+                    }, 1500);
+                }, 500);
+            }
+        }
+
+        function validateStep(step) {
+            let isValid = true;
+            const inputs = steps[step].querySelectorAll('input');
+            inputs.forEach(input => {
+                if (!input.value) {
+                    isValid = false;
+                }
+            });
+            return isValid;
+        }
+
+        function setFeatureValue(feature, value) {
+            document.getElementById(feature).value = value;
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            showStep(currentStep);
+        });
+    </script>
+</body>
+</html>

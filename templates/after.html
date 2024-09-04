@@ -1,0 +1,30 @@
+<html>
+    <head>
+      <title>Test Result</title>
+      <link href="../static/css/after.css" rel="stylesheet">
+    </head>
+<body>
+    <nav>
+        <div class="container">
+          <div class="row">
+              <a href="/about">About</a>
+              <a class="prediction-link" href="/">Make another prediction</a>
+          </div>
+        </div>
+      </nav>
+    <center>
+        <h1 style="padding: 55px;">  PREDICTION   </h1>
+        <div class="result">
+          {% if "positive" in prediction_text.lower() %}
+          <img src="../static/pcos_yes.jpg" alt="Positive Result">
+          {% elif "negative" in prediction_text.lower() %}
+          <img src="../static/one.jpg" width="250px" height="150px" alt="Negative Result">
+          {% endif %}
+          <div class="result">
+          <p>{{ prediction_text }}</p>
+          <p>{{ probability_text }}</p></div>
+        </div>
+        <br><br>
+    </center>
+</body>
+</html>
